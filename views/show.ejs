@@ -1,0 +1,18 @@
+<% include ./layouts/header %>
+<div class="ui main text container segment" style="margin-top: 80px; text-align: center;">
+    <div class="ui huge header"> <%= blog.title %>
+        <hr>
+    </div>
+    <div class="item">
+        <img class="ui centered rounded image" src="<%= blog.image %>">
+        <div class="content">
+            <span> <%= blog.created.toDateString()%></span>
+        </div>
+        <div class="description">
+            <p><%= blog.body%></p>
+        </div>
+
+
+    </div>
+</div>
+<% include ./layouts/footer %>

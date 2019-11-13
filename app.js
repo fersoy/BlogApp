@@ -22,6 +22,7 @@ var Blog = mongoose.model("Blog", blogSchema);
 //     image: "https://s3.amazonaws.com/uploads.hotmart.com/blog/2017/09/criar-um-blog-2-670x419.png",
 //     body: " This is a Test blog!"
 // });
+
 app.get("/", function (req, res) {
     res.redirect("/blogs");
 });
@@ -36,13 +37,29 @@ app.get("/blogs", function (req, res) {
     });
 
 });
-app.get("/blogs/new", function(req, res){
+app.get("/blogs/new", function (req, res) {
     res.render("new");
 })
 
+app.post("/blogs", function (req, res) {
+    Blog.create(req.body.blog, function (err, newBlog) {
+        if (err) {
+            res.render("new")
+        } else {
+            res.redirect("/blogs");
+        }
+    })
+})
 
-
-
+app.get("/blogs/:id", function (req, res) {
+    Blog.findById(req.params.id, function (err, foundblog) {
+        if (err) {
+            res.redirect("/blogs");
+        } else {
+            res.render("show", { blog: foundblog });
+        }
+    })
+})
 
 
 
