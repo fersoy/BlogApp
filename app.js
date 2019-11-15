@@ -8,7 +8,7 @@ mongoose.connect("mongodb://localhost/BlogApp", { useNewUrlParser: true, useUnif
 app.set("view engine", "ejs");
 app.use(express.static("public"));
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use (methodOverride("_method"));
+app.use(methodOverride("_method"));
 
 var blogSchema = new mongoose.Schema({
     title: String,
@@ -64,25 +64,33 @@ app.get("/blogs/:id", function (req, res) {
 });
 
 app.get("/blogs/:id/edit", function (req, res) {
-    Blog.findById(req.params.id, function (err, foundblog){
-        if(err){
+    Blog.findById(req.params.id, function (err, foundblog) {
+        if (err) {
             res.redirect("/blogs");
-        }else{
-            res.render("edit", {blog: foundblog});
+        } else {
+            res.render("edit", { blog: foundblog });
         }
     });
 });
 
-app.put("/blogs/:id", function(req, res){
-    Blog.findByIdAndUpdate(req.params.id, req.body.blog, function(err, ubdatedBlog){
-        if(err){
+app.put("/blogs/:id", function (req, res) {
+    Blog.findByIdAndUpdate(req.params.id, req.body.blog, function (err, ubdatedBlog) {
+        if (err) {
             res.redirect("/blogs");
-        }else{
+        } else {
             res.redirect("/blogs/" + req.params.id);
         }
-    }); 
+    });
 })
-
+app.delete("/blogs/:id", function (req, res) {
+    Blog.findByIdAndRemove(req.params.id, function (err, ubdatedBlog) {
+        if (err) {
+            res.redirect("/blogs");
+        } else {
+            res.redirect("/blogs");
+        }
+    });
+})
 
 app.listen(3000, function () {
     console.log("app starts here!")
